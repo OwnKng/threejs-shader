@@ -28,6 +28,7 @@ const material = new THREE.RawShaderMaterial({
   },
   side: THREE.DoubleSide,
   depthWrite: false,
+  depthTest: false,
   transparent: true,
 })
 
