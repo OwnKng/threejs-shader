@@ -27,6 +27,7 @@ const material = new THREE.RawShaderMaterial({
     uTime: { value: 0 },
   },
   side: THREE.DoubleSide,
+  depthWrite: false,
   transparent: true,
 })
 
@@ -52,6 +53,7 @@ const renderer = new THREE.WebGLRenderer({
 
 renderer.setSize(size.width, size.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+renderer.setClearColor("#151B26", 1)
 
 //_ Resize events
 window.addEventListener("resize", () => {
