@@ -2,73 +2,75 @@ import "./style.css"
 import * as THREE from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 
-// Get canvas html element
+//_ Select the canvas
 const canvas = document.querySelector("canvas.webgl")
 
-// Dimensions
-const sizes = {
+//_ Set dimensions
+const size = {
   width: window.innerWidth,
   height: window.innerHeight,
 }
 
-// Create a scene
+//_ Create a scene
 const scene = new THREE.Scene()
 
-// Add a geometry
-const cube = new THREE.BoxBufferGeometry(1, 1)
+//_ Create Geometry
+const box = new THREE.BoxBufferGeometry(1, 1, 1)
 
-// Add a material
-const material = new THREE.MeshBasicMaterial()
+//_ Create Material
+const material = new THREE.MeshBasicMaterial({
+  color: "teal",
+})
 
-// Add mesh
-const mesh = new THREE.Mesh(cube, material)
+//_ Create mesh
+const mesh = new THREE.Mesh(box, material)
 scene.add(mesh)
 
-// Add Camera
+//_ Create camera
 const camera = new THREE.PerspectiveCamera(
   75,
-  sizes.width / sizes.height,
-  1,
+  size.width / size.height,
+  0.01,
   1000
 )
-
-camera.position.set(1, 1, 1)
+camera.position.set(2, 2, 2)
 scene.add(camera)
 
-// Add renderer
-const renderer = new THREE.WebGLRenderer({ canvas })
-renderer.setSize(sizes.width, sizes.height)
+//_ Create renderer
+const renderer = new THREE.WebGLRenderer({
+  canvas: canvas,
+})
+
+renderer.setSize(size.width, size.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
-// Add resize events
+//_ Resize events
 window.addEventListener("resize", () => {
-  // Update sizes
-  sizes.width = window.innerWidth
-  sizes.height = window.innerHeight
+  //* Update sizes
+  size.width = window.innerWidth
+  size.height = window.innerHeight
 
-  // Update camera
-  camera.aspect = sizes.width / sizes.height
+  //* Update camera
+  camera.aspect = size.width / size.height
   camera.updateProjectionMatrix()
 
-  // Update renderer
-  renderer.setSize(sizes.width, sizes.height)
+  //* Update renderer
+  renderer.setSize(size.width, size.height)
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 })
 
-// Add controls
+//_ Add controls
 const controls = new OrbitControls(camera, canvas)
 controls.enableDamping = true
 
-// Add frame function
+//_ Frame function
 const clock = new THREE.Clock()
 
 const frame = () => {
-  const elapsedTime = clock.getElapsedTime()
+  const elpasedTime = clock.getElapsedTime()
 
-  // Update controls
   controls.update()
 
-  // Renderer
   renderer.render(scene, camera)
 
   window.requestAnimationFrame(frame)
