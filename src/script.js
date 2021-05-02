@@ -17,17 +17,22 @@ const size = {
 const scene = new THREE.Scene()
 
 //_ Create Geometry
-const box = new THREE.BoxGeometry(1, 1, 1)
+const geo = new THREE.PlaneGeometry(2, 1, 64, 64)
 
 //_ Create Material
 const material = new THREE.RawShaderMaterial({
   vertexShader,
   fragmentShader,
+  uniforms: {
+    uTime: { value: 0 },
+  },
   side: THREE.DoubleSide,
+  transparent: true,
 })
 
 //_ Create mesh
-const mesh = new THREE.Mesh(box, material)
+const mesh = new THREE.Mesh(geo, material)
+mesh.rotation.z = -Math.PI
 scene.add(mesh)
 
 //_ Create camera
@@ -37,7 +42,7 @@ const camera = new THREE.PerspectiveCamera(
   0.01,
   1000
 )
-camera.position.set(2, 2, 2)
+camera.position.set(0, 1, 2)
 scene.add(camera)
 
 //_ Create renderer
@@ -71,8 +76,12 @@ controls.enableDamping = true
 const clock = new THREE.Clock()
 
 const frame = () => {
-  const elpasedTime = clock.getElapsedTime()
+  const elapsedTime = clock.getElapsedTime()
 
+  // update material
+  material.uniforms.uTime.value = elapsedTime
+
+  camera.lookAt(mesh.position)
   controls.update()
 
   renderer.render(scene, camera)
