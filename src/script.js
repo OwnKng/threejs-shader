@@ -1,6 +1,8 @@
 import "./style.css"
 import * as THREE from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
+import vertexShader from "./shaders/wave/vertex.glsl"
+import fragmentShader from "./shaders/wave/fragment.glsl"
 
 //_ Select the canvas
 const canvas = document.querySelector("canvas.webgl")
@@ -15,11 +17,13 @@ const size = {
 const scene = new THREE.Scene()
 
 //_ Create Geometry
-const box = new THREE.BoxBufferGeometry(1, 1, 1)
+const box = new THREE.BoxGeometry(1, 1, 1)
 
 //_ Create Material
-const material = new THREE.MeshBasicMaterial({
-  color: "teal",
+const material = new THREE.RawShaderMaterial({
+  vertexShader,
+  fragmentShader,
+  side: THREE.DoubleSide,
 })
 
 //_ Create mesh
